@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUBOL LOGIN</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-800 flex flex-col items-center justify-center min-h-screen">
+    <nav class="fixed top-0 flex flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text-gray-700 bg-white">
+        <div class="w-6" >
+            <a href="#">
+                <!-- Logo -->
+                <svg width="25px" height="25px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z"/></svg>
+            </a>
+        </div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" id="menu-button" class="h-6 w-6 cursor-pointer md:hidden block"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+
+        <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
+            <ul class="pt-4 text-base text-gray-700 md:flex md:justify-between  md:pt-0">
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/index.html">Inicio</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/next-events/index.html">Eventos Proximos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/my-events/index.html">Mis eventos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/settings/index.html">Ajustes</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#" onclick="signOut()">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="h-16"></div>
+    
+    <div class="bg-gray-100 shadow-lg rounded-lg p-8 max-w-xs md:max-w-md w-full">
+        <div id="login-form">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Crear Evento</h2>
+            <form onsubmit="onSubmitCreateEvent(event)">
+                
+                <!-- 
+                event_id
+                date
+                time
+                proximity_time
+                status_event 
+                place
+                -->
+                <label for="date" class="block text-gray-600">Día</label>
+                <input id="date" type="date" name="date" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+
+                <label for="time" class="block text-gray-600">Hora</label>
+                <input id="time" type="time" name="time" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+
+                <input  type="text" name="place" placeholder="Lugar" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Crear</button>
+                <!-- <p class="text-center text-gray-600 mt-6">
+                    <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('forgot-password-form')">¿Olvidó su contraseña?</a>
+                </p>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿No tienes una cuenta? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('signup-form')">Registrarse</a>
+                </p> -->
+            </form>
+        </div>
+
+        <div id="signup-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Registrarse</h2>
+            <form onsubmit="onSubmitSignUp(event)">
+                <input type="text" name="name" placeholder="Nombre" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="password" placeholder="Contraseña" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="passwordConfirm" placeholder="Confirmar Contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Registrarse</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Ya tienes una cuenta? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+
+        <div id="forgot-password-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Recuperar contraseña</h2>
+            <form onsubmit="onSubmitResetPassword(event)">
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Reestablecer contraseña</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Recuerdas tu contraseña? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+        
+        <div id="new-password-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Recuperar contraseña</h2>
+            <form onsubmit="onSubmitNewPassword(event)">
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="password" placeholder="Contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="passwordConfirm" placeholder="Confirmar contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Nueva contraseña</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Recuerdas tu contraseña? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="p-2 text-red-500 text-center">
+            <p id="error-message" id="text-center"></p>
+        </div>
+    </div>
+
+
+    <script>
+        function signOut(){
+            loading.open();
+            signOutUser().then(res => {
+                if (!!res && res?.error) { throw new Error(res.error) }
+                window.location.href = "/login/index.html";
+            }).catch(error => {
+                console.error('>> >>sinout auth error:', error);
+            }).finally(() => {
+                loading.close();
+            })
+        }
+    </script>
+    <script src="/src/components/loading.js"></script>
+    <script src="/src/components/nav.js"></script>
+    <script src="/src/controller/user-controller.js" async></script>
+    <script src="/src/controller/event-controller.js" async></script>
+    <script src="./settings.js" async></script>
+
+    <iframe id="loadingFrame" 
+        src="/src/components/loading.html" 
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0; overflow: hidden; z-index: 9999; display: none;">
+    </iframe>
+</body>
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUBOL</title>
+    <link rel="stylesheet" href="/src/index.css">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-800 flex flex-col justify-center items-center h-dvh ">
+    <nav class="fixed top-0 flex flex-wrap items-center justify-between w-full md:py-0 px-4 text-lg text-gray-700 bg-white z-10">
+        <div class="flex w-[calc(100%-2.2rem)] max-w-lg">
+            
+            <div class="w-6 mr-3 mt-4" >
+                <a href="#">
+                    <!-- Logo -->
+                    <svg width="25px" height="25px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z"/></svg>
+                </a>
+            </div>
+
+            <a class="info flex gap-2 w-full justify-around" onclick="openEventInfo(true)">
+                <div class="text-sm flex flex-col items-center mt-2 mb-3">
+                    <span id="date-event">--o--</span>
+                    <span id="status-event" class="text-sm font-semibold -mb-[2px] text-black">--o--</span>
+                </div>
+                <div class="font-semibold text-blue-500 text-xl flex flex-col items-center mt-2">
+                    <span id="time-event" class="text-sm font-normal -mb-[6px] text-black">--o--</span>
+                    <span id="proximity-time-event">--o--</span>
+                </div>
+                <div class="n-playes font-semibold text-xl mt-3">
+                    <span id="current-players-event" class="text-blue-500">-</span> /
+                    <span id="required-players-event" class="text-sm align-text-top">-</span>
+                </div>
+            </a>
+        </div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" id="menu-button" class="h-6 w-6 cursor-pointer md:hidden block"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+
+        <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
+            <ul class="pt-4 text-base text-gray-700 md:flex md:justify-between  md:pt-0">
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/index.html">Inicio</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/next-events/index.html">Eventos Proximos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/my-events/index.html">Mis eventos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Ajustes</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#" onclick="signOut()">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="h-15"></div>
+
+    <main id="main-events" class="w-screen h-[calc(100vh-4.5rem)] relative z-[1]">
+        <div id="futbol-container" class="w-full h-full grass p-2 relative overflow-hidden">
+            <!-- bordes -->
+            <div class="border-gray-300/50 border-2 w-full h-full relative flex flex-col justify-between items-center">
+                <!-- porteria -->
+                <div class="border-gray-300/50 border-2 h-10 w-24 relative flex justify-center items-center"></div>
+                <!-- mitad -->
+                <div class="border-gray-300/50 border-b-2 w-full h-0 relative flex justify-center items-center">
+                    <!-- centro -->
+                    <div class="border-gray-300/50 border-2 w-24 h-24 aspect-square relative rounded-full"></div>
+                </div>
+                <!-- porteria -->
+                <div class="border-gray-300/50 border-2 w-24 h-10 relative flex justify-center items-center"></div>
+            </div>
+        </div>
+    </main>    
+    
+    <div id="add-player-container" class="w-full h-dvh left-0 fixed z-20 top-0 hidden flex justify-center items-center bg-gray-800/20">
+        <div class="bg-gray-100/95 shadow-lg rounded-lg p-8 max-w-xs md:max-w-md w-full">
+            <div id="add-player-form">
+                <h2 id="title-form-player" class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Agregar Jugador</h2>
+                <form onsubmit="onSubmitUpsertPlayer(event)">
+                    <input  type="text" name="name" placeholder="Nombre" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    
+                    <label for="time" class="block text-gray-600">Hora</label>
+                    <input id="time" type="time" name="arrival_time" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    
+
+                    <div id="buttons-player">
+                        <button type="button" onclick="onDeletePlayer()"  id="btn-delete-player" class="mb-2 w-full bg-red-600 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-200">Eliminar</button>
+                        <button type="submit"                            class="mb-2 w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Aceptar</button>
+                    </div>
+                    <button type="button" onclick="onCancelUpdate()" class="mb-2 w-full bg-gray-300 text-black py-2 md:py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-200">Cancelar</button>
+                    
+                </form>
+            </div>
+            <div class="p-2 text-red-500 text-center">
+                <p id="error-message" id="text-center"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="event-container" class="w-full h-dvh left-0 fixed z-20 top-0 hidden flex justify-center items-start bg-gray-800/20 overflow-y-scroll">
+        <div class="bg-gray-100/95 shadow-lg rounded-lg p-8 max-w-xs md:max-w-md w-full">
+            <div>
+                <h2 id="title-form-player" class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-4">Evento</h2>
+                
+                <div id="event-info" class="mb-4 flex flex-col gap-1">
+                    <div class="">
+                        <span class="text-black/60">Lugar del encuentro: </span>
+                        <span id="place-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+                    
+                    <div class="">
+                        <span class="text-black/60">Día y hora: </span>
+                        <span id="datetime-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+                    
+                    <div class="">
+                        <span class="text-black/60">Hora aproximada de llegada: </span>
+                        <span id="proximity-time-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+                    
+                    <div class="">
+                        <span class="text-black/60">Jugadores totales: </span>
+                        <span id="players-totals-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+
+                    <div class="">
+                        <span class="text-black/60">Estado del evento: </span>
+                        <span id="status-event-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+                    
+                    <div class="">
+                        <span class="text-black/60">Descripción: </span>
+                        <span id="description-info" class="text-blue-800 font-semibold">--o--</span>
+                    </div>
+                </div>
+                <form id="event-form" onsubmit="onSubmitUpdateEvent(event)">
+                    <label for="date" class="block text-gray-600">Día</label>
+                    <input id="date" type="date" name="date" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+
+                    <label for="time" class="block text-gray-600">Hora</label>
+                    <input id="time" type="time" name="time" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+
+                    <input  type="text" name="place" placeholder="Lugar" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    <input  type="number" name="required_players" placeholder="Jugarores requeridos (10)" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    <select name="state_event" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="value1" selected>Activo</option>
+                        <option value="value2">Cancelado</option>
+                        <option value="value3">Pospuesto</option>
+                    </select>
+                    <input  type="text" name="description" placeholder="Descrición" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                    
+                    <button type="button" onclick="onDeleteEvent()"  class="mb-2 w-full bg-red-600 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-red-700 transition duration-200">Eliminar</button>
+                    <button type="submit"                            class="mb-2 w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Actualizar</button>
+                    
+                </form>
+
+                <button type="button" onclick="onCancelInfo()" class="mb-2 w-full bg-gray-300 text-black py-2 md:py-3 rounded-lg font-semibold hover:bg-gray-600 transition duration-200">Cerrar</button>
+            </div>
+            <div class="p-2 text-red-500 text-center">
+                <p id="error-message" id="text-center"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/src/utils/date-time.js"></script>
+    <script src="/src/components/loading.js"></script>
+    <script src="/src/components/nav.js"></script>
+    <script src="/src/controller/user-controller.js" async></script>
+    <script src="/src/controller/event-controller.js" async></script>
+    <script src="/src/controller/player-controller.js" async></script>
+    <script src="/src/app.js" async></script>
+
+    <iframe id="loadingFrame" src="/src/components/loading.html" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0; overflow: hidden; z-index: 9999; display: none;"></iframe>
+</body>
+</html>

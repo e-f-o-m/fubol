@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUBOL</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-800 flex flex-col items-center min-h-screen">
+    <nav class="fixed top-0 flex z-50 flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text-gray-700 bg-white">
+        <div class="w-6" >
+            <a href="#">
+                <!-- Logo -->
+                <svg width="25px" height="25px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z"/></svg>
+            </a>
+        </div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" id="menu-button" class="h-6 w-6 cursor-pointer md:hidden block"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+
+        <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
+            <ul class="pt-4 text-base text-gray-700 md:flex md:justify-between  md:pt-0">
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/index.html">Inicio</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Eventos Proximos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/my-events/index.html">Mis eventos</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Ajustes</a>
+                </li>
+                <li>
+                    <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#" onclick="signOut()">Cerrar sesión</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="h-16"></div>
+    
+    <div class="min-h-screen bg-gray-100 flex flex-col">
+        <!-- Hero Section -->
+        <header class="relative bg-cover bg-center h-[500px]" style="background-image: url('https://source.unsplash.com/1600x900/?soccer,stadium');">
+          <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center px-6">
+            <h1 class="text-white text-4xl md:text-6xl font-bold">Organiza y juega fútbol fácilmente</h1>
+            <p class="text-white text-lg mt-4">Crea partidos, gestiona jugadores y ubica posiciones en la cancha de forma visual.</p>
+            <a href="/login/index.html" class="mt-6 px-6 py-3 bg-blue-500 text-white text-lg rounded-lg shadow-lg hover:bg-blue-600 transition">Regístrate gratis</a>
+          </div>
+        </header>
+      
+        <!-- Features Section -->
+        <section class="py-16 px-6 text-center">
+          <h2 class="text-3xl font-bold text-gray-800">¿Por qué usar nuestra plataforma?</h2>
+          <div class="grid md:grid-cols-3 gap-8 mt-10 max-w-5xl mx-auto">
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+              <h3 class="text-xl font-semibold">⚽ Crea Eventos Fáciles</h3>
+              <p class="mt-2 text-gray-600">Configura partidos en segundos con fecha, hora y ubicación.</p>
+            </div>
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+              <h3 class="text-xl font-semibold">📍 Posiciones en la Cancha</h3>
+              <p class="mt-2 text-gray-600">Ubica jugadores gráficamente en la cancha.</p>
+            </div>
+            <div class="p-6 bg-white shadow-lg rounded-lg">
+                <h3 class="text-xl font-semibold">👥 Gestión de Jugadores</h3>
+                <p class="mt-2 text-gray-600">Agrega o elimina jugadores fácilmente en tus eventos.</p>
+              </div>
+          </div>
+        </section>
+      
+        <!-- CTA Section -->
+        <section class="bg-blue-500 py-16 text-center text-white">
+          <h2 class="text-3xl font-bold">Únete ahora y empieza a jugar</h2>
+          <p class="mt-4 text-lg">Regístrate gratis y encuentra partidos cerca de ti.</p>
+          <a href="/login/index.html" class="mt-6 px-6 py-3 bg-white text-blue-500 text-lg rounded-lg shadow-lg hover:bg-gray-200 transition">Comenzar</a>
+        </section>
+      
+        <!-- Footer -->
+        <footer class="py-6 bg-gray-800 text-center text-gray-300">
+          <p>© 2025 Tu Plataforma de Fútbol. Todos los derechos reservados.</p>
+        </footer>
+      </div>
+      
+
+    <script src="/src/components/loading.js"></script>
+    <script src="/src/components/nav.js"></script>
+    <script src="/src/controller/user-controller.js" async></script>
+    <script src="/src/controller/event-controller.js" async></script>
+
+    <script>
+        function signOut(){
+            loading.open();
+            signOutUser().then(res => {
+                if (!!res && res?.error) { throw new Error(res.error) }
+                window.location.href = "/login/index.html";
+            }).catch(error => {
+                console.error('>> >>sinout auth error:', error);
+            }).finally(() => {
+                loading.close();
+            })
+        }
+    </script>
+
+    <iframe id="loadingFrame" 
+        src="/src/components/loading.html" 
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0; overflow: hidden; z-index: 9999; display: none;">
+    </iframe>
+</body>
+</html>

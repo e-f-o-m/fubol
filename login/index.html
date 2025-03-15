@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUBOL LOGIN</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-gray-800 flex items-center justify-center min-h-screen">
+    <div class="bg-gray-100 shadow-lg rounded-lg p-8 max-w-xs md:max-w-md w-full">
+        <div id="login-form">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Iniciar sesión</h2>
+            <form onsubmit="onSubmitSignIn(event)">
+                <input  type="email"    name="email" placeholder="Correo" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input  type="password" name="password" placeholder="Contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Iniciar sesión</button>
+                <p class="text-center text-gray-600 mt-6">
+                    <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('forgot-password-form')">¿Olvidó su contraseña?</a>
+                </p>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿No tienes una cuenta? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('signup-form')">Registrarse</a>
+                </p>
+            </form>
+        </div>
+
+        <div id="signup-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Registrarse</h2>
+            <form onsubmit="onSubmitSignUp(event)">
+                <input type="text" name="name" placeholder="Nombre" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="password" placeholder="Contraseña" class="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="passwordConfirm" placeholder="Confirmar Contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Registrarse</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Ya tienes una cuenta? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+
+        <div id="forgot-password-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Recuperar contraseña</h2>
+            <form onsubmit="onSubmitResetPassword(event)">
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Reestablecer contraseña</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Recuerdas tu contraseña? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+        
+        <div id="new-password-form" class="hidden">
+            <h2 class="text-xl md:text-2xl font-bold text-center text-gray-800 mb-8">Recuperar contraseña</h2>
+            <form onsubmit="onSubmitNewPassword(event)">
+                <input type="email" name="email" placeholder="Correo" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="password" placeholder="Contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <input type="password" name="passwordConfirm" placeholder="Confirmar contraseña" class="w-full mb-6 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                <button type="submit" class="w-full bg-blue-500 text-white py-2 md:py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-200">Nueva contraseña</button>
+                <p class="text-center text-gray-600 mt-6">
+                    ¿Recuerdas tu contraseña? <a href="#" class="text-blue-500 hover:underline" onclick="toggleForm('login-form')">Iniciar sesión</a>
+                </p>
+            </form>
+        </div>
+
+        <div class="p-2 text-red-500 text-center">
+            <p id="error-message" id="text-center"></p>
+        </div>
+    </div>
+
+    <script src="/src/components/loading.js"></script>
+    <script src="/src/controller/user-controller.js" async></script>
+    <script src="./login.js" async></script>
+
+    <iframe id="loadingFrame" 
+        src="/src/components/loading.html" 
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0; overflow: hidden; z-index: 9999; display: none;">
+    </iframe>
+</body>
+</html>
