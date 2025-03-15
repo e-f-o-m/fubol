@@ -5,12 +5,12 @@ async function verification() {
     const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (user?.aud) {
-        if (window.location.href.includes("/login/index.html")) {
-            window.location.href = "/index.html";
+        if (window.location.href.includes("login/index.html")) {
+            window.location.href = `index.html&_=${new Date().getTime()}`
         }
     } else {
-        if (!window.location.href.includes("/login/index.html")) {
-            window.location.href = "/login/index.html";
+        if (!window.location.href.includes("login/index.html")) {
+            window.location.href = `login/index.html&_=${new Date().getTime()}`
         }
     }
 }

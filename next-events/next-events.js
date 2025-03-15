@@ -63,7 +63,7 @@ function openEvent(event_id) {
     const jsonString = JSON.stringify(obj);
     const base64String = btoa(jsonString);
     const timestamp = new Date().getTime();
-    window.location.href = `../index.html?event=${base64String}&_=${timestamp}`;
+    window.location.href = `index.html?event=${base64String}&_=${timestamp}`;
 }
 
 function itemOptionsToggle(event_id){

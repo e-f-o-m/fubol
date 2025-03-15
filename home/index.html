@@ -26,16 +26,16 @@
         <div class="hidden w-full md:flex md:items-center md:w-auto" id="menu">
             <ul class="pt-4 text-base text-gray-700 md:flex md:justify-between  md:pt-0">
                 <li>
-                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/index.html">Inicio</a>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="index.html">Inicio</a>
                 </li>
                 <li>
                     <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Eventos Proximos</a>
                 </li>
                 <li>
-                    <a class="md:p-4 py-2 block hover:text-purple-400" href="/my-events/index.html">Mis eventos</a>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="my-events/index.html">Mis eventos</a>
                 </li>
                 <li>
-                    <a class="md:p-4 py-2 block hover:text-purple-400" href="#">Ajustes</a>
+                    <a class="md:p-4 py-2 block hover:text-purple-400" href="settings/index.html">Ajustes</a>
                 </li>
                 <li>
                     <a class="md:p-4 py-2 block hover:text-purple-400 text-purple-500" href="#" onclick="signOut()">Cerrar sesión</a>
@@ -51,7 +51,7 @@
           <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center px-6">
             <h1 class="text-white text-4xl md:text-6xl font-bold">Organiza y juega fútbol fácilmente</h1>
             <p class="text-white text-lg mt-4">Crea partidos, gestiona jugadores y ubica posiciones en la cancha de forma visual.</p>
-            <a href="/login/index.html" class="mt-6 px-6 py-3 bg-blue-500 text-white text-lg rounded-lg shadow-lg hover:bg-blue-600 transition">Regístrate gratis</a>
+            <a href="login/index.html" class="mt-6 px-6 py-3 bg-blue-500 text-white text-lg rounded-lg shadow-lg hover:bg-blue-600 transition">Regístrate gratis</a>
           </div>
         </header>
       
@@ -78,7 +78,7 @@
         <section class="bg-blue-500 py-16 text-center text-white">
           <h2 class="text-3xl font-bold">Únete ahora y empieza a jugar</h2>
           <p class="mt-4 text-lg">Regístrate gratis y encuentra partidos cerca de ti.</p>
-          <a href="/login/index.html" class="mt-6 px-6 py-3 bg-white text-blue-500 text-lg rounded-lg shadow-lg hover:bg-gray-200 transition">Comenzar</a>
+          <a href="login/index.html" class="mt-6 px-6 py-3 bg-white text-blue-500 text-lg rounded-lg shadow-lg hover:bg-gray-200 transition">Comenzar</a>
         </section>
       
         <!-- Footer -->
@@ -98,7 +98,7 @@
             loading.open();
             signOutUser().then(res => {
                 if (!!res && res?.error) { throw new Error(res.error) }
-                window.location.href = "/login/index.html";
+                window.location.href = `login/index.html&_=${new Date().getTime()}`;
             }).catch(error => {
                 console.error('>> >>sinout auth error:', error);
             }).finally(() => {
