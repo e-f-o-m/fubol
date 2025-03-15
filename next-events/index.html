@@ -2,11 +2,12 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" href="data:," />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FUBOL LOGIN</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<base href="https://e-f-o-m.github.io/fubol">
+    <base href="https://e-f-o-m.github.io/fubol/">
 </head>
 <body class="bg-gray-800 flex flex-col items-center min-h-screen">
     <nav class="fixed top-0 flex z-20 flex-wrap items-center justify-between w-full py-4 md:py-0 px-4 text-lg text-gray-700 bg-white">
@@ -68,14 +69,14 @@
             })
         }
     </script>
-    <script src="/src/components/loading.js"></script>
-    <script src="/src/components/nav.js"></script>
-    <script src="/src/controller/user-controller.js" async></script>
-    <script src="/src/controller/event-controller.js" async></script>
-    <script src="./next-events.js" async></script>
+    <script src="src/components/loading.js"></script>
+    <script src="src/components/nav.js"></script>
+    <script src="src/controller/user-controller.js" async></script>
+    <script src="src/controller/event-controller.js" async></script>
+    <script src="next-events/next-events.js" async></script>
 
     <iframe id="loadingFrame" 
-        src="/src/components/loading.html" 
+        src="src/components/loading.html" 
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; border: none; margin: 0; padding: 0; overflow: hidden; z-index: 9999; display: none;">
     </iframe>
 </body>
