@@ -6,11 +6,11 @@ async function verification() {
 
     if (user?.aud) {
         if (window.location.href.includes("login/index.html")) {
-            window.location.href = `index.html&_=${new Date().getTime()}`
+            window.location.href = `index.html?_=${new Date().getTime()}`
         }
     } else {
         if (!window.location.href.includes("login/index.html")) {
-            window.location.href = `login/index.html&_=${new Date().getTime()}`
+            window.location.href = `login/index.html?_=${new Date().getTime()}`
         }
     }
 }

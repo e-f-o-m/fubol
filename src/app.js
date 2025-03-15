@@ -61,9 +61,9 @@ function redirecViewPage() {
         </div>`
     setTimeout(() => {
         if (myUser) {
-            window.location.href = `my-events/index.html&_=${new Date().getTime()}`
+            window.location.href = `my-events/index.html?_=${new Date().getTime()}`
         } else {
-            window.location.href = `home/index.html&_=${new Date().getTime()}`
+            window.location.href = `home/index.html?_=${new Date().getTime()}`
         }
     }, 3000);
 }
@@ -435,7 +435,7 @@ function signOut(){
     loading.open();
     signOutUser().then(res => {
         if (!!res && res?.error) { throw new Error(res.error) }
-        window.location.href = `login/index.html&_=${new Date().getTime()}`
+        window.location.href = `login/index.html?_=${new Date().getTime()}`
     }).catch(error => {
         console.error('>> >>sinout auth error:', error);
     }).finally(() => {

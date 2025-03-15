@@ -16,7 +16,7 @@ function onSubmitSignIn(event) {
     }
     signInUser(queryData).then(res => {
         if (!!res && res?.error) { throw new Error(res.error) }
-        window.location.href = `index.html&_=${new Date().getTime()}`
+        window.location.href = `index.html?_=${new Date().getTime()}`
     }).catch(error => {
         showError("Error al iniciar sesión");
         console.error('>> >>login auth error:', error);
